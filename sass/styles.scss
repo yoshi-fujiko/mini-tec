@@ -1,3 +1,12 @@
 @charset "utf-8";
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
+
+#gantt {
+	h4.group {
+		&.myGanntt {
+			background-color: #FEEFDC !important;
+			border-color: #EF8200 !important;
+		}
+	}
+}
