@@ -4,9 +4,24 @@
 
 #gantt {
 	h4.group {
-		&.myGanntt {
+		&.myGantt {
 			background-color: #FEEFDC !important;
 			border-color: #EF8200 !important;
+		}
+	}
+}
+
+.myBacklogOpenClose {
+	margin-left: 10px;
+}
+
+#myMember {
+	margin-top: 10px;
+	> li {
+		display: inline-block;
+		margin-right: 10px;
+		&:last-child {
+			margin-right: 0;
 		}
 	}
 }

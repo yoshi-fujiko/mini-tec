@@ -1,10 +1,107 @@
-/// <reference path="../definitions/jquery.d.ts" />
-module BACKLOG {
+module MY_BACKLOG {
 
-	export class addOpenCloseMenu {
+	export class CheckGrouping {
+
+		private checkVal: string;
 
 		constructor() {
+			this.checkVal = "担当者";
+		}
 
+		checkCategory(): boolean {
+			var current: any = document.getElementsByClassName("current");
+			for (var i = 0, I = current.length; i < I; i++) {
+				if (current[i].innerHTML === this.checkVal) {
+					return true;
+				}
+			}
+		}
+
+	}
+
+
+	export class memberAnc {
+
+		private memberH4: any;
+
+		constructor() {
+			this.memberH4 = document.getElementsByClassName("group");
+			this.setMemberAnc();
+		}
+
+		getMemberInfo(): any {
+			var member: any[] = [];
+			for (var i: number = 1, I = this.memberH4.length; i < I; i++) {
+				member[i] = {};
+				member[i].id = this.memberH4[i].getAttribute("id");
+				member[i].name = this.memberH4[i].innerText.split("_")[1];
+			}
+			return member;
+		}
+
+		setMemberAnc(): any {
+			var member: any = this.getMemberInfo();
+			var ul: any = document.createElement("ul");
+			var li: string = "";
+			for (var i: number = 1, I = member.length; i < I; i++) {
+				li += '<li><a href="#' + member[i].id + '">' + member[i].name + '</a></li>';
+			}
+			ul.setAttribute("id", "myMember");
+			ul.innerHTML = li;
+			document.getElementById("gantt_navi").appendChild(ul);
+		}
+
+	}
+
+
+	export class toggleGantt {
+
+		private idOpen: any;
+		private idClose: any;
+		private ganttTbl: any;
+		private ganttTblLen: number;
+
+		constructor() {
+			this.idOpen = document.getElementById("fullOpen");
+			this.idClose = document.getElementById("fullClose");
+			this.ganttTbl = document.getElementsByClassName("gantt_table");
+			this.ganttTblLen = this.ganttTbl.length;
+			this.setEevnt();
+		}
+
+		// open
+		ganttOpen(): any {
+			for (var i = 0; i < this.ganttTblLen; i++) {
+				this.ganttTbl[i].style.display = "block";
+				this.ganttTbl[i].style.opacity = "1";
+			}
+		}
+
+		// close
+		ganttClose(): any {
+			for (var i = 1; i < this.ganttTblLen; i++) {
+				this.ganttTbl[i].style.display = "none";
+			}
+		}
+
+		// set event
+		setEevnt(): any {
+			var self = this;
+			this.idOpen.addEventListener("click", function() {
+				self.ganttOpen();
+			});
+			this.idClose.addEventListener("click", function() {
+				self.ganttClose();
+			});
+		}
+
+	}
+
+	export class AddOpenCloseMenu {
+
+		constructor() {
+			this.addNavi();
+			new MY_BACKLOG.toggleGantt();
 		}
 
 		// get node navi
@@ -13,33 +110,29 @@ module BACKLOG {
 		}
 
 		// set node navi
-		setNaviNode(): string {
-			return '[<a href="javascript:void(0);" id="fullOpen">open</a> | <a href="javascript:void(0);" id="fullClose">close</a>]';
+		setNaviNode(): any {
+			var addStr: string = '[ <a href="javascript:void(0);" id="fullOpen">open</a> | <a href="javascript:void(0);" id="fullClose">close</a> ]';
+			var dom: any = document.createElement("span");
+			dom.setAttribute("class", "myBacklogOpenClose");
+			dom.innerHTML = addStr;
+			return dom;
+		}
+
+		// add navi
+		addNavi(): any {
+			document.getElementById("gantt_navi").appendChild(this.setNaviNode());
 		}
 
 	}
 
-	export class myGantt {
+	export class MyGantt {
 
 		private userName: string;
 
 		constructor() {
-			
-			if (this.checkGrouping()) {
-				this.userName = this.GetLoginUser();
-				this.getMyGanttChart();
-			}
+			this.userName = this.GetLoginUser();
+			this.getMyGanttChart();
 		
-		}
-
-		// check grouping: 担当者
-		checkGrouping(): boolean {
-			var current: any = document.getElementsByClassName("current");
-			for (var i = 0, I = current.length; i < I; i++) {
-				if (current[i].innerHTML === "担当者") {
-					return true;
-				}
-			}
 		}
 
 		// get login user
@@ -65,7 +158,7 @@ module BACKLOG {
 			var h4: any, form: any, br: any;
 			var ganttWrap: any = document.getElementById("gantt");
 			h4 = group;
-			h4.className += " myGanntt";
+			h4.className += " myGantt";
 			form = h4.nextSibling.nextSibling;
 			br = form.nextSibling.nextSibling;
 			ganttWrap.insertBefore(br, ganttWrap.firstChild);
@@ -77,4 +170,9 @@ module BACKLOG {
 
 }
 
-new BACKLOG.myGantt();
+var checkGrouping = new MY_BACKLOG.CheckGrouping();
+if (checkGrouping.checkCategory()) {
+	new MY_BACKLOG.MyGantt();
+	new MY_BACKLOG.AddOpenCloseMenu();
+	new MY_BACKLOG.memberAnc();
+}
