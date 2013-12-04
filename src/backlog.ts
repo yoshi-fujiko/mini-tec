@@ -1,5 +1,6 @@
 module MY_BACKLOG {
 
+	/* 担当者別ソートになっているかチェック */
 	export class CheckGrouping {
 
 		private checkVal: string;
@@ -19,7 +20,7 @@ module MY_BACKLOG {
 
 	}
 
-
+	/* 各メンバーへのページ内アンカー */
 	export class memberAnc {
 
 		private memberH4: any;
@@ -54,7 +55,7 @@ module MY_BACKLOG {
 
 	}
 
-
+	/* 全メンバーのテーブル open : close */
 	export class toggleGantt {
 
 		private idOpen: any;
