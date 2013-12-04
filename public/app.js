@@ -27,6 +27,7 @@ var MY_BACKLOG;
                 member[i] = {};
                 member[i].id = this.memberH4[i].getAttribute("id");
                 member[i].name = this.memberH4[i].innerText.split("_")[1];
+                member[i].icon = this.memberH4[i].getElementsByClassName("target_icon").item(0).getAttribute("src");
             }
             return member;
         };
@@ -36,7 +37,7 @@ var MY_BACKLOG;
             var ul = document.createElement("ul");
             var li = "";
             for (var i = 1, I = member.length; i < I; i++) {
-                li += '<li><a href="#' + member[i].id + '">' + member[i].name + '</a></li>';
+                li += '<li style="background-image:url(' + member[i].icon + ')"><a href="#' + member[i].id + '">' + member[i].name + '</a></li>';
             }
             ul.setAttribute("id", "myMember");
             ul.innerHTML = li;

@@ -20,6 +20,10 @@
 	> li {
 		display: inline-block;
 		margin-right: 10px;
+		background-repeat: no-repeat;
+		background-position: center left;
+		@include background-size(auto 15px);
+		padding-left: 18px;
 		&:last-child {
 			margin-right: 0;
 		}
